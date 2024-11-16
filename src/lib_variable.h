@@ -7,7 +7,7 @@
 //#include "Nextion.h"
 
 #define INTERRUPTPIN 4 //pin of the optical sensor that is used as an encoder
-#define PIN_OUTPUT 5 //pin of the DC motor
+#define PIN_OUTPUT 12 //pin of the DC motor
 
 
 const int resolution_encoder = 20; //resolution of the current encoder. 20 slots are used here. 
