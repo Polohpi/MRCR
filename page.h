@@ -3,7 +3,7 @@
 
 void Acceuil()
 {
-  //comeback:
+
   SerialUSB.println("Acceuil");
   while(1)
   {
@@ -28,11 +28,8 @@ void Acceuil()
       SerialUSB.println("Motor RPM avg = " + String(MotorRPM_avg));
       nextion_refresh_timer = millis();
     }
-    //Motor_PID.Compute();
-    //analogWrite(PIN_MOTOR, Motor_Output);
-    yield();
 
-    //goto comeback;
+    yield();
   }
   yield();
 }

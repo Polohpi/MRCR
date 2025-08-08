@@ -4,8 +4,8 @@
 
 void backend_PID()
 {
-  if((millis() - Motor_PID_refresh_timer) > MOTOR_PID_REFRESH_TIME)
-  {
+  //if((millis() - Motor_PID_refresh_timer) > MOTOR_PID_REFRESH_TIME)
+  //{
     if(Motor_Setpoint == 0)
     {
       Motor_PID.Compute();
@@ -14,27 +14,15 @@ void backend_PID()
     else
     {
       Motor_PID.Compute();
+    
     }
-    analogWrite(PIN_MOTOR, Motor_Output);
-    //analogWrite(PIN_MOTOR, Motor_Output * (0.902f * exp(0.00412f * Motor_Output)));
-    //analogWrite(PIN_MOTOR, Motor_Output * (1.0f + (m_high - 1.0f) / (1.0f + exp(-k * (Motor_Output - 300.0f)))) );
+    analogWrite(PIN_MOTOR, (Motor_Output/10)*( (Motor_Output/6000)*(Motor_Output/6000)* 20) ); 
+    /* this weird line is not my fault i promess. 
+    The problem is : the pid can control most of the speed of the motor (0 RPM<output<~ 550 RPM) 
+    but can not manage to get the motor to run to 1200 RPM. 
+    This take ages. This was the only solution I got to work without make the PID unstable. So i fix it with some duck tape I guess */
     Motor_PID_refresh_timer = millis();
-  }
-
-  if((millis() - Heater_PID_refresh_timer) > HEATER_PID_REFRESH_TIME)
-  {
-    if (Heater_Setpoint == 0)
-    {
-      Heater_PID.Compute();  
-      Heater_Output = 0;
-    }
-    else
-    {
-      Heater_PID.Compute();
-    }
-    analogWrite(PIN_HEATER, Heater_Output);
-    Motor_PID_refresh_timer = millis();    
-  }
+  //}
   yield();
   
 }
@@ -111,6 +99,11 @@ void RPM_counter()
     
     MotorRPM_avg = Avg_MotorRPM.reading( ( IR_sensor_count / (millis() - RPM_refresh_timer) )* (60000 / ENCODER) );
     //MotorRPM_avg = ( IR_sensor_count / (millis() - RPM_refresh_timer) )* (60000 / ENCODER);
+    if(MotorRPM_avg > 2500)
+    {
+      MotorRPM_avg =0;
+    }
+    
     Motor_Input = MotorRPM_avg;
     IR_sensor_count = 0;
     RPM_refresh_timer = millis();

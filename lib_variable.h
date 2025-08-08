@@ -25,26 +25,26 @@ float temp_ntc_heat_1 = 0;
 float temp_ntc_heat_2 = 0;
 float temp_ntc_oil = 0;
 
-const int MOTOR_PID_REFRESH_TIME = 5;           // time to refresh the motor PID every 50 ms
-unsigned long Motor_PID_refresh_timer = 0;  // timer for refreshing motor PID
+const int MOTOR_PID_REFRESH_TIME = 50;           // time to refresh the motor PID every 50 ms
+unsigned long Motor_PID_refresh_timer =  millis();  // timer for refreshing motor PID
 
 const int HEATER_PID_REFRESH_TIME = 5000;           // time to refresh the heater PID every  5000ms
-unsigned long Heater_PID_refresh_timer = 0;  // timer for refreshing heater PID
+unsigned long Heater_PID_refresh_timer = millis();  // timer for refreshing heater PID
 
 const int NEXTION_REFRESH_TIME = 1000;           // time to refresh the Nextion data every 1000 ms
-unsigned long nextion_refresh_timer = 0;  // timer for refreshing Nextion's page
+unsigned long nextion_refresh_timer = millis();  // timer for refreshing Nextion's page
 
 const int RPM_REFRESH_TIME = 50;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
-unsigned long RPM_refresh_timer = 0;  // timer for refreshing RPM counter.
+unsigned long RPM_refresh_timer = millis();  // timer for refreshing RPM counter.
 
 const int NEXTION_RESPONSE_REFRESH_TIME = 50;           // time to refresh the RPM counter every 100 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
-unsigned long nextion_response_refresh_timer = 0;  // timer for refreshing RPM counter.
+unsigned long nextion_response_refresh_timer = millis();  // timer for refreshing RPM counter.
 
 //Define PID Variables 
 double Motor_Setpoint=0, Motor_Input, Motor_Output;
 double Heater_Setpoint=0, Heater_Input, Heater_Output;
 
-double Motor_Kp=0.3, Motor_Ki=0.1, Motor_Kd=0.005;
+double Motor_Kp=1, Motor_Ki=0.3, Motor_Kd=0.1;
 //double Motor_Kp=0.01, Motor_Ki=0.05, Motor_Kd=0.01;
 double Heater_Kp=0, Heater_Ki=0, Heater_Kd=0;
 
