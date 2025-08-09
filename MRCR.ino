@@ -6,7 +6,8 @@
 
 
 void setup() {
-  analogWriteResolution(14);
+  
+  analogWriteResolution(14); //14 because 16 make the PID and the motor very very long to respond
   SerialUSB.begin(9600);
 
   SerialUSB.println("Setup");
@@ -20,11 +21,13 @@ void setup() {
   Motor_PID.SetMode(AUTOMATIC);
   Heater_PID.SetMode(AUTOMATIC);
 
-  Motor_PID.SetOutputLimits(0, 50000);
+  Motor_PID.SetOutputLimits(0, 6700); //see backend_PID()
   Heater_PID.SetOutputLimits(0,1023);
 
   Avg_Oil_Temp.begin(); // start movingavg for heating and motor
   Avg_MotorRPM.begin();
+
+  Avg_MotorRPM.reset();
 
   pinMode(PIN_NTC_MOTOR_1, INPUT);      // set pinmode
   pinMode(PIN_NTC_MOTOR_2, INPUT);
@@ -41,7 +44,15 @@ void setup() {
 
 void loop() 
 {
-  SerialUSB.println("loop");
-  Acceuil();
+  Nextion.writeStr("page 1");
+  ChangePageMenu = 0;
+  while (1)
+  {  
+    if(ChangePageMenu == 2)
+    {
+      Acceuil();
+    }
+    yield();
+  }
   yield();
 }

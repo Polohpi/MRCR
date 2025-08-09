@@ -1,6 +1,20 @@
 #ifndef FUCNTION_NEXTION_H
 #define FUNCTION_NEXTION_H
 
+void trigger40()
+{
+  SerialUSB.println("trigger40 - Main Page");
+  ChangePageMenu = 1;
+  yield();
+}
+
+void trigger41()
+{
+  SerialUSB.println("trigger41 - Acceuil");
+  ChangePageMenu = 2;
+  yield();
+}
+
 void trigger0()
 {
   //SerialUSB.println("trigger0");

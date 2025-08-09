@@ -19,6 +19,9 @@
 
 #define ENCODER 40
 
+#define MAIN_PAGE 1
+#define MANUAL_PAGE 2
+
 float temp_ntc_motor_1 = 0;
 float temp_ntc_motor_2 = 0;
 float temp_ntc_heat_1 = 0;
@@ -44,7 +47,7 @@ unsigned long nextion_response_refresh_timer = millis();  // timer for refreshin
 double Motor_Setpoint=0, Motor_Input, Motor_Output;
 double Heater_Setpoint=0, Heater_Input, Heater_Output;
 
-double Motor_Kp=1, Motor_Ki=0.3, Motor_Kd=0.1;
+double Motor_Kp=0.9, Motor_Ki=0.25, Motor_Kd=0.05;
 //double Motor_Kp=0.01, Motor_Ki=0.05, Motor_Kd=0.01;
 double Heater_Kp=0, Heater_Ki=0, Heater_Kd=0;
 
@@ -54,6 +57,8 @@ PID Heater_PID(&Heater_Input, &Heater_Output, &Heater_Setpoint, Heater_Kp, Heate
 
 // Set Nextion Serial
 EasyNex Nextion(Serial1);
+int ChangePageMenu = 0;
+
 
 
 movingAvg Avg_Oil_Temp(10); // sample oil temp sensor to avoid noise

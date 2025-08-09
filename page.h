@@ -3,14 +3,17 @@
 
 void Acceuil()
 {
-
+  ChangePageMenu = 0;
+  Nextion.writeStr("page 2");
   SerialUSB.println("Acceuil");
   while(1)
   {
+    if(ChangePageMenu == 1)
+    {
+      loop();
+    }
     if( (millis() - nextion_refresh_timer) > NEXTION_REFRESH_TIME)
     {
-      Nextion.writeNum("CURRENT_RPM.val", MotorRPM_avg);
-      Nextion.writeNum("CURRENT_TEMP.val",  temp_ntc_oil);
 
       SerialUSB.println("Input MOTOR = " + String(Motor_Input));
       SerialUSB.println("Input HEATER = " + String(Heater_Input));
