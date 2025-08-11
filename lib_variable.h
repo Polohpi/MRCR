@@ -1,55 +1,69 @@
 #ifndef LIB_VARIABLE_H
 #define LIB_VARIABLE_H
 
+//check README.md for more infos
 #include <Scheduler.h>
 #include "EasyNextionLibrary.h"
 #include <PID_v1.h>
 #include <movingAvg.h>
 
-#define PIN_NTC_MOTOR_1 A0
-#define PIN_NTC_MOTOR_2 A1
-#define PIN_NTC_HEAT_1 A2
-#define PIN_NTC_HEAT_2 A3
+//defone hardware analog pins
+#define PIN_NTC_MOSFET_MOTOR_1 A0
+#define PIN_NTC_MOSFET_MOTOR_2 A1
+#define PIN_NTC_MOSFET_HEAT_1 A2
+#define PIN_NTC_MOSFET_HEAT_2 A3
 #define PIN_NTC_OIL A4
+#define PIN_NTC_MOTOR A5
 
+//define hardware pins
 #define PIN_MOTOR 8
 #define PIN_HEATER 9 
-
 #define PIN_IR_SENSOR 3
+//#define PIN_BUZER 4
 
-#define ENCODER 40
+#define ENCODER 40 //number of teeth on the motor dc target
 
-#define MAIN_PAGE 1
-#define MANUAL_PAGE 2
+//set variables for each page. When called ChangePageMenu = 1, the screen will change to the main page
+#define MAIN_PAGE 1 
+#define MANUAL_MODE_PAGE 2
 
-float temp_ntc_motor_1 = 0;
-float temp_ntc_motor_2 = 0;
-float temp_ntc_heat_1 = 0;
-float temp_ntc_heat_2 = 0;
-float temp_ntc_oil = 0;
+//define variable to get the nextion RTC values (hour minutes etc)
+int current_year;
+int current_month;
+int current_day;
+int current_hour;
+int current_minute;
+int current_second;
 
+//deine various timer
 const int MOTOR_PID_REFRESH_TIME = 50;           // time to refresh the motor PID every 50 ms
 unsigned long Motor_PID_refresh_timer =  millis();  // timer for refreshing motor PID
 
-const int HEATER_PID_REFRESH_TIME = 5000;           // time to refresh the heater PID every  5000ms
+const int HEATER_PID_REFRESH_TIME = 1000;           // time to refresh the heater PID every  5000ms
 unsigned long Heater_PID_refresh_timer = millis();  // timer for refreshing heater PID
 
-const int NEXTION_REFRESH_TIME = 1000;           // time to refresh the Nextion data every 1000 ms
+const int NEXTION_REFRESH_TIME = 10000;           // time to refresh the Nextion data every 100 ms
 unsigned long nextion_refresh_timer = millis();  // timer for refreshing Nextion's page
 
 const int RPM_REFRESH_TIME = 50;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
 unsigned long RPM_refresh_timer = millis();  // timer for refreshing RPM counter.
 
-const int NEXTION_RESPONSE_REFRESH_TIME = 50;           // time to refresh the RPM counter every 100 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
+const int NEXTION_RESPONSE_REFRESH_TIME = 50;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
 unsigned long nextion_response_refresh_timer = millis();  // timer for refreshing RPM counter.
+
+const int NTC_REFRESH_TIME = 100;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
+unsigned long NTC_refresh_timer = millis();  // timer for refreshing RPM counter.
+
+const int DEBUG_REFRESH_TIME = 10000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
+unsigned long debug_refresh_timer = millis();  // timer for refreshing RPM counter.
 
 //Define PID Variables 
 double Motor_Setpoint=0, Motor_Input, Motor_Output;
 double Heater_Setpoint=0, Heater_Input, Heater_Output;
 
+//Define PID values
 double Motor_Kp=0.9, Motor_Ki=0.25, Motor_Kd=0.05;
-//double Motor_Kp=0.01, Motor_Ki=0.05, Motor_Kd=0.01;
-double Heater_Kp=0, Heater_Ki=0, Heater_Kd=0;
+double Heater_Kp=0.3, Heater_Ki=0.05, Heater_Kd=0;
 
 //create PIDs objects
 PID Motor_PID(&Motor_Input, &Motor_Output, &Motor_Setpoint, Motor_Kp, Motor_Ki, Motor_Kd, DIRECT);
@@ -59,13 +73,26 @@ PID Heater_PID(&Heater_Input, &Heater_Output, &Heater_Setpoint, Heater_Kp, Heate
 EasyNex Nextion(Serial1);
 int ChangePageMenu = 0;
 
-
-
-movingAvg Avg_Oil_Temp(10); // sample oil temp sensor to avoid noise
+//define moving avg. Ths avoid noise for the PIDs
+movingAvg Avg_Temp_ntc_oil(10); // sample oil temp sensor to avoid noise
 movingAvg Avg_MotorRPM(5); // sample RPM count to avoid noise 
+movingAvg Avg_Temp_ntc_mosfet_motor_1(10);
+movingAvg Avg_Temp_ntc_mosfet_motor_2(10);
+movingAvg Avg_Temp_ntc_mosfet_heat_1(10);
+movingAvg Avg_Temp_ntc_mosfet_heat_2(10);
 
-float IR_sensor_count = 0; //vaue to count the signal from the encoder
-uint16_t  MotorRPM_avg = 0; // value that will contain average data
-int Oil_Temp_avg = 0; //same here
+
+
+//other variable
+float IR_sensor_count = 0; //value to count the signal from the encoder
+uint16_t  avg_Motor_RPM = 0; // value that will contain average data
+
+float avg_temp_ntc_oil = 0; //same here
+float avg_temp_ntc_mosfet_motor_1 =0;
+float avg_temp_ntc_mosfet_motor_2 =0;
+float avg_temp_ntc_mosfet_heat_1 = 0;
+float avg_temp_ntc_mosfet_heat_2 = 0;
+// int ManualMode_SetRPM[] = {0, 200, 250, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950};
+// int ManualMode_SetHeat[] = {0, 30, 40, 50, 60, 70, 80, 90, 100, 110};
 
 #endif

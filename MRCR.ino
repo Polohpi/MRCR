@@ -14,7 +14,9 @@ void setup() {
   Scheduler.startLoop(ntc_update);
   Scheduler.startLoop(backend_nextion);
   Scheduler.startLoop(backend_PID);
-  Scheduler.startLoop(RPM_counter);
+  Scheduler.startLoop(RPM_update);
+  Scheduler.startLoop(HEAT_PID_update);
+  Scheduler.startLoop(debug);
 
   Nextion.begin(9600); // Begin the object with a baud rate of 9600
 
@@ -22,17 +24,21 @@ void setup() {
   Heater_PID.SetMode(AUTOMATIC);
 
   Motor_PID.SetOutputLimits(0, 6700); //see backend_PID()
-  Heater_PID.SetOutputLimits(0,1023);
+  Heater_PID.SetOutputLimits(0,6700);
 
-  Avg_Oil_Temp.begin(); // start movingavg for heating and motor
+  Avg_Temp_ntc_oil.begin(); // start movingavg for heating, motor and ntc sensor
   Avg_MotorRPM.begin();
-
+  Avg_Temp_ntc_mosfet_motor_1.begin();
+  Avg_Temp_ntc_mosfet_motor_2.begin();
+  Avg_Temp_ntc_mosfet_heat_1.begin();
+  Avg_Temp_ntc_mosfet_heat_2.begin();
   Avg_MotorRPM.reset();
 
-  pinMode(PIN_NTC_MOTOR_1, INPUT);      // set pinmode
-  pinMode(PIN_NTC_MOTOR_2, INPUT);
-  pinMode(PIN_NTC_HEAT_1, INPUT);
-  pinMode(PIN_NTC_HEAT_2, INPUT);
+  pinMode(PIN_NTC_MOSFET_MOTOR_1, INPUT);      // set pinmode
+  pinMode(PIN_NTC_MOSFET_MOTOR_2, INPUT);
+  pinMode(PIN_NTC_MOSFET_HEAT_1, INPUT);
+  pinMode(PIN_NTC_MOSFET_HEAT_2, INPUT);
+//  pinMode(PIN_NTC_MOTOR, INPUT_PULLUP); //pullup here to avaoid erratic reaing before the pcb v2 wich will include a ntc sensor for the DC motor itself
   pinMode(PIN_NTC_OIL, INPUT);
   pinMode(PIN_MOTOR, OUTPUT);
   pinMode(PIN_HEATER, OUTPUT); 
@@ -45,12 +51,12 @@ void setup() {
 void loop() 
 {
   Nextion.writeStr("page 1");
-  ChangePageMenu = 0;
+  //ChangePageMenu = 0;
   while (1)
   {  
-    if(ChangePageMenu == 2)
+    if(ChangePageMenu == MANUAL_MODE_PAGE)
     {
-      Acceuil();
+      ManualModePage();
     }
     yield();
   }
