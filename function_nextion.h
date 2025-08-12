@@ -3,21 +3,21 @@
 
 void trigger40() //to main page
 {
-  SerialUSB.println("trigger40 - Main Page");
+  Serial.println("trigger40 - Main Page");
   ChangePageMenu = MAIN_PAGE;
   yield();
 }
 
 void trigger41() //to ManualMode Page
 {
-  SerialUSB.println("trigger41 - ManualModePage");
+  Serial.println("trigger41 - ManualModePage");
   ChangePageMenu = MANUAL_MODE_PAGE;
   yield();
 }
 
 void trigger0()// SET values in ManualMode 
 {
-  //SerialUSB.println("trigger0");
+  Serial.println("trigger0 - SET");
   // Motor_Setpoint = ManualMode_SetRPM[Nextion.readNumber("SET_RPM.val")];
   // Heater_Setpoint = ManualMode_SetHeat[Nextion.readNumber("SET_TEMP.val")];
   Motor_Setpoint = Nextion.readNumber("SET_RPM.val");
@@ -27,7 +27,7 @@ void trigger0()// SET values in ManualMode
 
 void trigger1()
 {
-  SerialUSB.println("trigger1");
+  Serial.println("trigger1 - STOP");
   Motor_Setpoint = 0;
   Heater_Setpoint = 0;
   yield();

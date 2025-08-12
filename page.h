@@ -5,7 +5,7 @@ void ManualModePage()
 {
   //ChangePageMenu = 0;
   Nextion.writeStr("page 2");
-  SerialUSB.println("ManualMode");
+  Serial.println("ManualMode");
   while(1)
   {
     if(ChangePageMenu == MAIN_PAGE)

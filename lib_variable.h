@@ -13,7 +13,7 @@
 #define PIN_NTC_MOSFET_HEAT_1 A2
 #define PIN_NTC_MOSFET_HEAT_2 A3
 #define PIN_NTC_OIL A4
-#define PIN_NTC_MOTOR A5
+//#define PIN_NTC_MOTOR A5
 
 //define hardware pins
 #define PIN_MOTOR 8
@@ -42,7 +42,7 @@ unsigned long Motor_PID_refresh_timer =  millis();  // timer for refreshing moto
 const int HEATER_PID_REFRESH_TIME = 1000;           // time to refresh the heater PID every  5000ms
 unsigned long Heater_PID_refresh_timer = millis();  // timer for refreshing heater PID
 
-const int NEXTION_REFRESH_TIME = 10000;           // time to refresh the Nextion data every 100 ms
+const int NEXTION_REFRESH_TIME = 1000;           // time to refresh the Nextion data every 100 ms
 unsigned long nextion_refresh_timer = millis();  // timer for refreshing Nextion's page
 
 const int RPM_REFRESH_TIME = 50;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
@@ -54,7 +54,7 @@ unsigned long nextion_response_refresh_timer = millis();  // timer for refreshin
 const int NTC_REFRESH_TIME = 100;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
 unsigned long NTC_refresh_timer = millis();  // timer for refreshing RPM counter.
 
-const int DEBUG_REFRESH_TIME = 10000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
+const int DEBUG_REFRESH_TIME = 2000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
 unsigned long debug_refresh_timer = millis();  // timer for refreshing RPM counter.
 
 //Define PID Variables 
@@ -63,7 +63,7 @@ double Heater_Setpoint=0, Heater_Input, Heater_Output;
 
 //Define PID values
 double Motor_Kp=0.9, Motor_Ki=0.25, Motor_Kd=0.05;
-double Heater_Kp=0.3, Heater_Ki=0.05, Heater_Kd=0;
+double Heater_Kp=0.3, Heater_Ki=0.01, Heater_Kd=0;
 
 //create PIDs objects
 PID Motor_PID(&Motor_Input, &Motor_Output, &Motor_Setpoint, Motor_Kp, Motor_Ki, Motor_Kd, DIRECT);

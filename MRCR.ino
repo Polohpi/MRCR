@@ -7,10 +7,12 @@
 
 void setup() {
   
-  analogWriteResolution(14); //14 because 16 make the PID and the motor very very long to respond
-  SerialUSB.begin(9600);
+  //analogWriteResolution(14); //14 because 16 make the PID and the motor very very long to respond
+  Serial.begin(115200);
+  Nextion.begin(9600); // Begin the object with a baud rate of 9600
 
-  SerialUSB.println("Setup");
+
+  Serial.println("Setup");
   Scheduler.startLoop(ntc_update);
   Scheduler.startLoop(backend_nextion);
   Scheduler.startLoop(backend_PID);
@@ -18,7 +20,6 @@ void setup() {
   Scheduler.startLoop(HEAT_PID_update);
   Scheduler.startLoop(debug);
 
-  Nextion.begin(9600); // Begin the object with a baud rate of 9600
 
   Motor_PID.SetMode(AUTOMATIC);
   Heater_PID.SetMode(AUTOMATIC);

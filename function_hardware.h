@@ -83,7 +83,7 @@ float ReadTempNTC(int pin)
   int Ro = 10, B =  3435; //Nominal resistance 10K, Beta constant
   int Rseries = 10;// Series resistor 10K
   float To = 298.15; // Nominal Temperature
-  const float V = 3.3; //voltage
+  const float V = 5; //voltage
 
   /*Read analog outputof NTC module,
    i.e the voltage across the thermistor */
@@ -149,23 +149,23 @@ void debug()
 {
   if((millis() - debug_refresh_timer) > DEBUG_REFRESH_TIME)
   {
-  //       SerialUSB.println("Input MOTOR = " + String(Motor_Input));
-//       SerialUSB.println("Input HEATER = " + String(Heater_Input));
-//       SerialUSB.println("Setpoint MOTOR = " + String(Motor_Setpoint));
-//       SerialUSB.println("Setpoint HEATER = " + String(Heater_Setpoint));
-//       SerialUSB.println("Output MOTOR = " + String(Motor_Output));
-//       SerialUSB.println("Output HEATER = " + String(Heater_Output));
-    
-//       SerialUSB.println("NTC MOTOR 1 = " + String(avg_temp_ntc_mosfet_motor_1));
-//       SerialUSB.println("NTC MOTOR 2 = " + String(avg_temp_ntc_mosfet_motor_2));
-// //      SerialUSB.println("NTC MOTOR = " + String(temp_ntc_motor));
-//       SerialUSB.println("NTC HEAT 1 = " + String(avg_temp_ntc_mosfet_heat_1));
-//       SerialUSB.println("NTC HEAT 2 = " + String(avg_temp_ntc_mosfet_heat_2));
-//       SerialUSB.println("NTC OIL = " + String(avg_temp_ntc_oil));
-      SerialUSB.print("NTC_OIL:");
-      SerialUSB.println(String(avg_temp_ntc_oil));
-      //SerialUSB.println("IR sensor count = " + String(IR_sensor_count));
-      //SerialUSB.println("Motor RPM avg = " + String(MotorRPM_avg));
+      Serial.println("IP M = " + String(Motor_Input));
+      Serial.println("IP H= " + String(Heater_Input));
+      Serial.println("SP M= " + String(Motor_Setpoint));
+      Serial.println("SP H= " + String(Heater_Setpoint));
+      Serial.println("OP M= " + String(Motor_Output));
+      Serial.println("OP H= " + String(Heater_Output));
+      
+      Serial.println("NTC M1= " + String(avg_temp_ntc_mosfet_motor_1));
+      Serial.println("NTC M2= " + String(avg_temp_ntc_mosfet_motor_2));
+//      Serial.println("NTC MOTOR = " + String(temp_ntc_motor));
+      Serial.println("NTC H1= " + String(avg_temp_ntc_mosfet_heat_1));
+      Serial.println("NTC H2= " + String(avg_temp_ntc_mosfet_heat_2));
+      Serial.println("NTC OIL= " + String(avg_temp_ntc_oil));
+      // Serial.print("NTC_OIL:");
+      // Serial.println(String(avg_temp_ntc_oil));
+      Serial.println("IR cnt= " + String(IR_sensor_count));
+      Serial.println("Motor RPM avg= " + String(avg_Motor_RPM));
       debug_refresh_timer = millis();
   }
 yield();
