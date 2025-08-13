@@ -43,11 +43,10 @@ void debug()
   if((millis() - debug_refresh_timer) > DEBUG_REFRESH_TIME)
   {
       Serial.println("InPut Motor = " + String(Motor_Input));
-      Serial.println("Input Heater = " + String(Heater_Input));
       Serial.println("Setpoint Motor = " + String(Motor_Setpoint));
-      Serial.println("Setpoint Heater = " + String(Heater_Setpoint));
+      Serial.println("Setpoint Heater = " + String(Setpoint_HEATER));
       Serial.println("Output Motor = " + String(Motor_Output));
-      Serial.println("Output Heater = " + String(Heater_Output));
+      Serial.println(String("Heat active = ") + (heat ? "ON" : "OFF"));
       
       Serial.println("NTC Motor 1= " + String(avg_temp_ntc_mosfet_motor_1));
       Serial.println("NTC Motor 2= " + String(avg_temp_ntc_mosfet_motor_2));

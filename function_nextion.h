@@ -21,7 +21,7 @@ void trigger0()// SET values in ManualMode
   // Motor_Setpoint = ManualMode_SetRPM[Nextion.readNumber("SET_RPM.val")];
   // Heater_Setpoint = ManualMode_SetHeat[Nextion.readNumber("SET_TEMP.val")];
   Motor_Setpoint = Nextion.readNumber("SET_RPM.val");
-  Heater_Setpoint = Nextion.readNumber("SET_TEMP.val");
+  Setpoint_HEATER = Nextion.readNumber("SET_TEMP.val");
   yield();
 }
 
@@ -29,7 +29,7 @@ void trigger1()
 {
   Serial.println("trigger1 - STOP");
   Motor_Setpoint = 0;
-  Heater_Setpoint = 0;
+  Setpoint_HEATER = 0;
   yield();
 }
 

@@ -16,18 +16,16 @@ void setup() {
   Serial.println("Setup");
   Scheduler.startLoop(ntc_update);
   Scheduler.startLoop(backend_nextion);
-  Scheduler.startLoop(backend_PID);
+  Scheduler.startLoop(MOTOR_PID);
   Scheduler.startLoop(RPM_update);
-  Scheduler.startLoop(HEAT_PID_update);
+  Scheduler.startLoop(HEAT_ramp);
   Scheduler.startLoop(debug, 2048);
 
 
   Motor_PID.SetMode(AUTOMATIC);
-  Heater_PID.SetMode(AUTOMATIC);
 
   Motor_PID.SetOutputLimits(0, 6700); //see backend_PID()
-  Heater_PID.SetOutputLimits(0,6700);
-
+  
   Avg_Temp_ntc_oil.begin(); // start movingavg for heating, motor and ntc sensor
   Avg_MotorRPM.begin();
   Avg_Temp_ntc_mosfet_motor_1.begin();

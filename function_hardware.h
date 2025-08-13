@@ -7,7 +7,7 @@ Function used to run in the background using the scheduler library.
 Compute the PIDS
 
 */
-void backend_PID()
+void MOTOR_PID()
 {
   if( (millis() - Motor_PID_refresh_timer) > MOTOR_PID_REFRESH_TIME)
   {
@@ -33,18 +33,7 @@ void backend_PID()
     The problem is : the pid can control most of the speed of the motor (0 RPM<output<~ 550 RPM) 
     but can not manage to get the motor to run to 1200 RPM. This take ages.
     This was the only solution I got to work without make the PID unstable. So i fix it with some duck tape I guess */
-  }
-
-  if(Heater_Setpoint == 0)
-  {
-    Heater_PID.Compute();
-    Heater_Output = 0;
-  }
-  else
-  {
-    Heater_PID.Compute();
-  }
-  analogWrite(PIN_HEATER, (Heater_Output)); 
+  } 
   yield();
 
 }
@@ -104,12 +93,28 @@ void RPM_interrupt()
 }
 
 
-void HEAT_PID_update() //this refresh the pid heat input
+void HEAT_ramp() //this refresh the pid heat input
 {
-  if((millis() - Heater_PID_refresh_timer) > HEATER_PID_REFRESH_TIME)
+  if((millis() - Heater_ramp_refresh_timer) > HEATER_RAMP_REFRESH_TIME)
   {
-    Heater_Input = avg_temp_ntc_oil;
-    Heater_PID_refresh_timer = millis();
+    Heater_ramp_refresh_timer = millis();
+
+    // Décision de commande avec hystérésis
+    bool wantOn  = (avg_temp_ntc_oil <= (Setpoint_HEATER - HYST_HEATER));   // allumer si on est sous SP-1°C
+    bool wantOff = (avg_temp_ntc_oil >= (Setpoint_HEATER + HYST_HEATER));   // éteindre si on est au-dessus de SP+1°C
+
+
+    // Appliquer la temporisation minimale pour éviter les commutations trop fréquentes
+    if (heat && wantOff) 
+    {
+        heat = false;
+    }
+    else if (!heat && wantOn)
+    {
+        heat = true;
+    }
+    // Sortie physique
+    digitalWrite(PIN_HEATER, heat ? HIGH : LOW);
   }
   yield();
 }

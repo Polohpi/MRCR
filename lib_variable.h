@@ -41,8 +41,8 @@
 const int MOTOR_PID_REFRESH_TIME = 50;           // time to refresh the motor PID every 50 ms
 unsigned long Motor_PID_refresh_timer =  millis();  // timer for refreshing motor PID
 
-const int HEATER_PID_REFRESH_TIME = 1000;           // time to refresh the heater PID every  5000ms
-unsigned long Heater_PID_refresh_timer = millis();  // timer for refreshing heater PID
+const int HEATER_RAMP_REFRESH_TIME = 2000;           // time to refresh the heater PID every  5000ms
+unsigned long Heater_ramp_refresh_timer = millis();  // timer for refreshing heater PID
 
 const int NEXTION_REFRESH_TIME = 1000;           // time to refresh the Nextion data every 100 ms
 unsigned long nextion_refresh_timer = millis();  // timer for refreshing Nextion's page
@@ -61,15 +61,12 @@ unsigned long debug_refresh_timer = millis();  // timer for refreshing RPM count
 
 //Define PID Variables 
 double Motor_Setpoint=0, Motor_Input, Motor_Output;
-double Heater_Setpoint=0, Heater_Input, Heater_Output;
 
 //Define PID values
 double Motor_Kp=0.3, Motor_Ki=0.3, Motor_Kd=0.1;
-double Heater_Kp=0.3, Heater_Ki=0.01, Heater_Kd=0;
 
 //create PIDs objects
 PID Motor_PID(&Motor_Input, &Motor_Output, &Motor_Setpoint, Motor_Kp, Motor_Ki, Motor_Kd, DIRECT);
-PID Heater_PID(&Heater_Input, &Heater_Output, &Heater_Setpoint, Heater_Kp, Heater_Ki, Heater_Kd, DIRECT);
 
 // Set Nextion Serial
 EasyNex Nextion(Serial1);
@@ -94,5 +91,9 @@ float avg_temp_ntc_mosfet_heat_2 = 0;
 // int ManualMode_SetRPM[] = {0, 200, 250, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950};
 // int ManualMode_SetHeat[] = {0, 30, 40, 50, 60, 70, 80, 90, 100, 110};
 
+
+double Setpoint_HEATER = 0.0;                       // consigne en °C
+const double HYST_HEATER = 1.0;                // ±1 °C autour de SP
+bool heat = false;                      // état chauffage (sortie)
 
 #endif
