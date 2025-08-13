@@ -1,4 +1,5 @@
 #include "lib_variable.h"
+#include "function_software.h"
 #include "function_hardware.h"
 #include "page.h"
 #include "function_nextion.h"
@@ -7,8 +8,8 @@
 
 void setup() {
   
-  //analogWriteResolution(14); //14 because 16 make the PID and the motor very very long to respond
-  Serial.begin(115200);
+  analogWriteResolution(12); //14 because 16 make the PID and the motor very very long to respond
+  Serial.begin(9600);
   Nextion.begin(9600); // Begin the object with a baud rate of 9600
 
 
@@ -18,7 +19,7 @@ void setup() {
   Scheduler.startLoop(backend_PID);
   Scheduler.startLoop(RPM_update);
   Scheduler.startLoop(HEAT_PID_update);
-  Scheduler.startLoop(debug);
+  Scheduler.startLoop(debug, 2048);
 
 
   Motor_PID.SetMode(AUTOMATIC);
@@ -46,13 +47,14 @@ void setup() {
   pinMode(PIN_IR_SENSOR, INPUT_PULLUP);
 
   attachInterrupt(digitalPinToInterrupt(PIN_IR_SENSOR), RPM_interrupt, FALLING);
+
+
   yield();
 }
 
 void loop() 
 {
   Nextion.writeStr("page 1");
-  //ChangePageMenu = 0;
   while (1)
   {  
     if(ChangePageMenu == MANUAL_MODE_PAGE)
