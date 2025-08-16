@@ -58,36 +58,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        [
-          "lib_footprint_mismatch|129471619|63905000|90620120-ad2a-453d-a70c-c862aa1132a1|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "lib_footprint_mismatch|159471619|63905000|e4e4b826-876c-4479-b7a4-31ae2f897898|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "lib_footprint_mismatch|189471619|63905000|f6db36b4-14f0-457f-ad4e-980f8f6f4575|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "lib_footprint_mismatch|99471619|63905000|d342b395-f9c0-4db9-8cd8-d8c20cbf0615|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "silk_overlap|113284119|48905000|1b2f8151-9932-4fc0-95c4-ae89f2d87fa7|55f160a9-b5db-4636-a006-f3a309270783",
-          ""
-        ],
-        [
-          "silk_overlap|143284119|78905000|55f160a9-b5db-4636-a006-f3a309270783|bb8d8d3c-c506-477b-ad34-ab299ca72e19",
-          ""
-        ],
-        [
-          "silk_overlap|173284119|48905000|ef3507eb-2e02-426b-a27d-7e39142e4ffa|bb8d8d3c-c506-477b-ad34-ab299ca72e19",
-          ""
-        ]
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -535,7 +506,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "C:/Users/micro/Proton Drive/paul.gaudre/My files/projet/Travail/banc rodage/PCB/banc_rodage_pcb/",
+      "plot": "C:/Users/micro/Proton Drive/paul.gaudre/My files/projet/Travail/banc rodage/MRCR/MRCR/PCB/export/banc_rodage_pcb-job_v1.1/",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "banc_rodage_pcb.step",

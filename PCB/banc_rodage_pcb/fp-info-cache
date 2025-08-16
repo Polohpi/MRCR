@@ -1,4 +1,4 @@
-26080317936080573
+26150407569420322
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -104233,6 +104233,286 @@ Varistor
 Varistor_Panasonic_VF
 Panasonic VF series varistor, 6x8mm body, 3.2mm height, https://mediap.industry.panasonic.eu/assets/imported/industrial.panasonic.com/cdbs/www-data/pdf/AWA0000/AWA0000C4.pdf
 Varistor VF
+0
+2
+2
+arduino nano r4
+Arduino_101_Shield
+https://docs.arduino.cc/retired/boards/arduino-101-619
+
+0
+38
+38
+arduino nano r4
+Arduino_Due_Shield
+https://docs.arduino.cc/hardware/due
+
+0
+92
+91
+arduino nano r4
+Arduino_Giga_R1_WiFi_Shield
+https://docs.arduino.cc/hardware/giga-r1-wifi
+
+0
+92
+91
+arduino nano r4
+Arduino_Leonardo_Shield
+https://docs.arduino.cc/hardware/leonardo
+
+0
+38
+37
+arduino nano r4
+Arduino_M0_Pro_Shield
+https://docs.arduino.cc/retired/boards/arduino-m0-pro
+
+0
+38
+37
+arduino nano r4
+Arduino_MKR_1000_WiFi_Socket
+https://docs.arduino.cc/hardware/mkr-1000-wifi
+
+0
+28
+28
+arduino nano r4
+Arduino_MKR_FOX_1200_Socket
+https://docs.arduino.cc/hardware/mkr-fox-1200
+
+0
+28
+28
+arduino nano r4
+Arduino_MKR_Vidor_4000_Socket
+https://docs.arduino.cc/hardware/mkr-vidor-4000
+
+0
+28
+28
+arduino nano r4
+Arduino_MKR_WiFi_1010_Socket
+https://docs.arduino.cc/hardware/mkr-wifi-1010
+
+0
+28
+28
+arduino nano r4
+Arduino_MKR_Zero_Socket
+https://docs.arduino.cc/hardware/mkr-zero
+
+0
+28
+28
+arduino nano r4
+Arduino_Mega2560_R3_Shield
+https://docs.arduino.cc/hardware/mega-2560
+
+0
+92
+91
+arduino nano r4
+Arduino_Micro_Socket
+https://docs.arduino.cc/hardware/micro
+
+0
+34
+32
+arduino nano r4
+Arduino_Mini_Socket
+https://docs.arduino.cc/retired/boards/arduino-mini-05
+
+0
+35
+35
+arduino nano r4
+Arduino_Mini_Socket_NoSPH
+https://docs.arduino.cc/retired/boards/arduino-mini-05
+
+0
+30
+30
+arduino nano r4
+Arduino_Nano_33_IoT_Socket
+https://docs.arduino.cc/hardware/nano-33-iot
+
+0
+30
+30
+arduino nano r4
+Arduino_Nano_33_IoT_Tile
+https://docs.arduino.cc/hardware/nano-33-iot
+
+0
+30
+30
+arduino nano r4
+Arduino_Nano_ESP32_Socket
+https://docs.arduino.cc/hardware/nano-esp32
+
+0
+30
+30
+arduino nano r4
+Arduino_Nano_ESP32_Tile
+https://docs.arduino.cc/hardware/nano-esp32
+
+0
+30
+30
+arduino nano r4
+Arduino_Nano_Every_Socket
+https://docs.arduino.cc/hardware/nano-every
+
+0
+30
+30
+arduino nano r4
+Arduino_Nano_Every_Tile
+https://docs.arduino.cc/hardware/nano-every
+
+0
+30
+30
+arduino nano r4
+Arduino_Nano_R4
+https://docs.arduino.cc/hardware/nano
+
+0
+33
+33
+arduino nano r4
+Arduino_Nano_Socket
+https://docs.arduino.cc/hardware/nano
+
+0
+30
+30
+arduino nano r4
+Arduino_Nicla_Vision_Socket
+https://docs.arduino.cc/hardware/nicla-vision
+
+0
+19
+18
+arduino nano r4
+Arduino_Nicla_Vision_Tile
+https://docs.arduino.cc/hardware/nicla-vision
+
+0
+19
+18
+arduino nano r4
+Arduino_Nicla_Voice_Socket
+https://docs.arduino.cc/hardware/nicla-voice
+
+0
+19
+17
+arduino nano r4
+Arduino_Nicla_Voice_Tile
+https://docs.arduino.cc/hardware/nicla-voice
+
+0
+19
+17
+arduino nano r4
+Arduino_Pro_Mini_Socket
+https://docs.arduino.cc/retired/boards/arduino-pro-mini
+
+0
+34
+34
+arduino nano r4
+Arduino_Pro_Mini_Socket_NoSPH
+https://docs.arduino.cc/retired/boards/arduino-pro-mini
+
+0
+28
+28
+arduino nano r4
+Arduino_Uno_R2_Shield
+https://startingelectronics.org/articles/arduino/uno-r3-r2-differences/
+
+0
+34
+34
+arduino nano r4
+Arduino_Uno_R3_Shield
+https://docs.arduino.cc/hardware/uno-rev3
+
+0
+38
+37
+arduino nano r4
+Arduino_Uno_R4_Minima_Shield
+https://docs.arduino.cc/hardware/uno-r4-minima
+
+0
+38
+38
+arduino nano r4
+Arduino_Uno_R4_WiFi_Shield
+https://docs.arduino.cc/hardware/uno-r4-wifi
+
+0
+47
+46
+arduino nano r4
+Arduino_Zero_Shield
+https://docs.arduino.cc/hardware/zero
+
+0
+38
+38
+arduino nano r4
+Clone_Mega2560_Pro_Socket
+https://docs.arduino.cc/hardware/mega-2560
+
+0
+86
+86
+arduino nano r4
+Clone_Pro_Mini_Socket
+https://www.addicore.com/Pro-Mini-p/ad249.htm
+
+0
+35
+35
+arduino nano r4
+Clone_Pro_Mini_Socket_NoSPH
+https://www.addicore.com/Pro-Mini-p/ad249.htm
+
+0
+29
+29
+perso
+Arduino Pro Mini
+
+
+0
+35
+35
+perso
+Logo
+
+
+0
+0
+0
+perso
+TO-220F-3_Horizontal_TabUp
+TO-220F-3, Horizontal, RM 2.54mm, see http://www.st.com/resource/en/datasheet/stp20nm60.pdf
+TO-220F-3 Horizontal RM 2.54mm
+0
+3
+3
+perso
+TerminalBlock_bornier-2_P5.08mm
+simple 2-pin terminal block, pitch 5.08mm, revamped version of bornier2
+terminal block bornier2
 0
 2
 2
