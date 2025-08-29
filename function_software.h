@@ -54,8 +54,6 @@ void debug()
       Serial.println("NTC Heat 1= " + String(avg_temp_ntc_mosfet_heat_1));
       Serial.println("NTC Heat 2= " + String(avg_temp_ntc_mosfet_heat_2));
       Serial.println("NTC OIL= " + String(avg_temp_ntc_oil));
-      // Serial.print("NTC_OIL:");
-      // Serial.println(String(avg_temp_ntc_oil));
       Serial.println("IR cnt= " + String(IR_sensor_count));
       Serial.println("Motor RPM avg= " + String(avg_Motor_RPM));
       debug_refresh_timer = millis();

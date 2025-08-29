@@ -14,8 +14,8 @@
 #define PIN_NTC_MOSFET_MOTOR_2 A1
 #define PIN_NTC_MOSFET_HEAT_1 A2
 #define PIN_NTC_MOSFET_HEAT_2 A3
-#define PIN_NTC_OIL A4
-//#define PIN_NTC_MOTOR A5
+#define PIN_NTC_OIL A6
+//#define PIN_NTC_MOTOR A7
 
 //define hardware pins
 #define PIN_MOTOR 10 
@@ -30,12 +30,12 @@
 #define MANUAL_MODE_PAGE 2
 
 //define variable to get the nextion RTC values (hour minutes etc)
-// int current_year;
-// int current_month;
-// int current_day;
-// int current_hour;
-// int current_minute;
-// int current_second;
+int current_year;
+int current_month;
+int current_day;
+int current_hour;
+int current_minute;
+int current_second;
 
 //deine various timer
 const int MOTOR_PID_REFRESH_TIME = 50;           // time to refresh the motor PID every 50 ms
@@ -50,7 +50,7 @@ unsigned long nextion_refresh_timer = millis();  // timer for refreshing Nextion
 const int RPM_REFRESH_TIME = 50;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
 unsigned long RPM_refresh_timer = millis();  // timer for refreshing RPM counter.
 
-const int NEXTION_RESPONSE_REFRESH_TIME = 50;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
+const int NEXTION_RESPONSE_REFRESH_TIME = 500;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
 unsigned long nextion_response_refresh_timer = millis();  // timer for refreshing RPM counter.
 
 const int NTC_REFRESH_TIME = 1000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
@@ -84,12 +84,13 @@ movingAvg Avg_Temp_ntc_mosfet_heat_2(10);
 float IR_sensor_count = 0; //value to count the signal from the encoder
 int  avg_Motor_RPM = 0; // value that will contain average data
 float avg_temp_ntc_oil = 0; //same here
+float avg_temp_ntc_motor = 0; //same here
 float avg_temp_ntc_mosfet_motor_1 =0;
 float avg_temp_ntc_mosfet_motor_2 =0;
 float avg_temp_ntc_mosfet_heat_1 = 0;
 float avg_temp_ntc_mosfet_heat_2 = 0;
-// int ManualMode_SetRPM[] = {0, 200, 250, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950};
-// int ManualMode_SetHeat[] = {0, 30, 40, 50, 60, 70, 80, 90, 100, 110};
+int ManualMode_SetRPM[] = {0, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950};
+int ManualMode_SetHeat[] = {0, 30, 40, 50, 60, 70, 80, 90, 100, 110};
 
 
 double Setpoint_HEATER = 0.0;                       // consigne en °C

@@ -52,6 +52,7 @@ void setup() {
 
 void loop() 
 {
+  SerialUSB.println("loop");
   Nextion.writeStr("page 1");
   while (1)
   {  

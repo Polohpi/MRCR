@@ -12,16 +12,17 @@ void trigger41() //to ManualMode Page
 {
   Serial.println("trigger41 - ManualModePage");
   ChangePageMenu = MANUAL_MODE_PAGE;
+  //Nextion.writeStr("page 2");
   yield();
 }
 
 void trigger0()// SET values in ManualMode 
 {
   Serial.println("trigger0 - SET");
-  // Motor_Setpoint = ManualMode_SetRPM[Nextion.readNumber("SET_RPM.val")];
-  // Heater_Setpoint = ManualMode_SetHeat[Nextion.readNumber("SET_TEMP.val")];
-  Motor_Setpoint = Nextion.readNumber("SET_RPM.val");
-  Setpoint_HEATER = Nextion.readNumber("SET_TEMP.val");
+  Motor_Setpoint = ManualMode_SetRPM[Nextion.readNumber("SET_RPM.val")];
+  Setpoint_HEATER = ManualMode_SetHeat[Nextion.readNumber("SET_TEMP.val")];
+  // Motor_Setpoint = Nextion.readNumber("SET_RPM.val");
+  // Setpoint_HEATER = Nextion.readNumber("SET_TEMP.val");
   yield();
 }
 

@@ -28,7 +28,6 @@ void MOTOR_PID()
     analogWrite(PIN_MOTOR, (Motor_Output/10)*( (Motor_Output/6000)*(Motor_Output/6000)* 20) ); 
     Motor_PID_refresh_timer = millis();
 
-    //analogWrite(PIN_MOTOR, Motor_Output/10);
     /* this weird line is not my fault i promess. 
     The problem is : the pid can control most of the speed of the motor (0 RPM<output<~ 550 RPM) 
     but can not manage to get the motor to run to 1200 RPM. This take ages.
@@ -44,20 +43,20 @@ void backend_nextion()
   {
     //send current RPM and oil temp
     Nextion.writeNum("GLOBAL_VAL.CURRENT_RPM.val", avg_Motor_RPM);
-    Nextion.writeNum("GLOBAL_VAL.CURRENT_TEMP.val",  avg_temp_ntc_oil);
+    Nextion.writeNum("GLOBAL_VAL.CURRENT_HEAT.val",  avg_temp_ntc_oil);
 
     //send all temp values from security NTC sensor
-//     Nextion.writeNum("GLOBAL_VAL.NTC_MOTOR1.val",  avg_temp_ntc_mosfet_motor_1);
-//     Nextion.writeNum("GLOBAL_VAL.NTC_MOTOR2.val",  avg_temp_ntc_mosfet_motor_2);
-//     Nextion.writeNum("GLOBAL_VAL.NTC_MOTOR.val",  temp_ntc_motor);
-//     Nextion.writeNum("GLOBAL_VAL.NTC_HEATER1.val",  avg_temp_ntc_mosfet_heat_1);
-//     Nextion.writeNum("GLOBAL_VAL.NTC_HEATER2.val",  avg_temp_ntc_mosfet_heat_1);
+    Nextion.writeNum("GLOBAL_VAL.NTC_MOTOR1.val",  avg_temp_ntc_mosfet_motor_1);
+    Nextion.writeNum("GLOBAL_VAL.NTC_MOTOR2.val",  avg_temp_ntc_mosfet_motor_2);
+    Nextion.writeNum("GLOBAL_VAL.NTC_MOTOR.val",  avg_temp_ntc_motor);
+    Nextion.writeNum("GLOBAL_VAL.NTC_HEATER1.val",  avg_temp_ntc_mosfet_heat_1);
+    Nextion.writeNum("GLOBAL_VAL.NTC_HEATER2.val",  avg_temp_ntc_mosfet_heat_1);
 
-    // //send PID output
-    // Nextion.writeNum("GLOBAL_VAL.MOTOR_OUTPUT.val",  Motor_Output);
-    // Nextion.writeNum("GLOBAL_VAL.HEATER_OUTPUT.val",  Heater_Output);
+    //send PID output
+    Nextion.writeNum("GLOBAL_VAL.MOTOR_OUTPUT.val",  Motor_Output);
+    //Nextion.writeNum("GLOBAL_VAL.HEATER_OUTPUT.val",  Heater_Output);
 
-    // Nextion.writeNum("GLOBAL_VAL.IR_SENSOR.val",  IR_sensor_count);
+    Nextion.writeNum("GLOBAL_VAL.IR_SENSOR.val",  IR_sensor_count);
 
     // current_year = Nextion.readNumber("GLOBAL_VAL.ANNEE.val");
     // current_month = Nextion.readNumber("GLOBAL_VAL.MONTH.val");
