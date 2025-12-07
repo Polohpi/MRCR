@@ -54,7 +54,7 @@ unsigned long nextion_refresh_timer = millis();  // timer for refreshing Nextion
 const int RPM_REFRESH_TIME = 50;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
 unsigned long RPM_refresh_timer = millis();  // timer for refreshing RPM counter.
 
-const int NEXTION_RESPONSE_REFRESH_TIME = 500;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
+const int NEXTION_RESPONSE_REFRESH_TIME = 1000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
 unsigned long nextion_response_refresh_timer = millis();  // timer for refreshing RPM counter.
 
 const int NTC_REFRESH_TIME = 1000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
@@ -102,12 +102,13 @@ int ManualMode_SetHeat[] = {0, 30, 40, 50, 60, 70, 80, 90, 100, 110};
 int ManualMode_SetTimer[] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420}; 
 
 
-double Setpoint_HEATER = 0.0;                       // consigne en °C
-const double HYST_HEATER = 1.0;                // ±1 °C autour de SP
-bool heat = false;                      // état chauffage (sortie)
+double Setpoint_HEATER = 0.0;                       // target in °C
+const double HYST_HEATER = 1.0;                // ±1 °C around the SP
+bool heat = false;                      // heat tate (sortie)
 
-int Setpoint_Timer = 0; // contain de numebr of minutes left before stop
+int Setpoint_Timer = 0; // contain de number of minutes left before stop
 
+// variable for the manual timer (see function_software.h)
 int Timeleft = 0;
 int timerOFF_hour = 0;
 int timerOFF_minute = 0;

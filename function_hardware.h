@@ -1,12 +1,16 @@
 #ifndef FUNCTION_HARDWARE_H
 #define FUNCTION_HARDWARE_H
 
-/* BACKEND PID
 
-Function used to run in the background using the scheduler library.
-Compute the PIDS
+void MOTOR_PID();
+void backend_nextion();
+void ntc_update();
+void RPM_interrupt();
+void HEAT_ramp();
 
-*/
+
+
+//compute the PID for the motor
 void MOTOR_PID()
 {
   if( (millis() - Motor_PID_refresh_timer) > MOTOR_PID_REFRESH_TIME)
@@ -37,34 +41,35 @@ void MOTOR_PID()
 
 }
 
+//manage all global data flow between MCU and nextion
 void backend_nextion()
 {
   if( (millis() - nextion_response_refresh_timer) > NEXTION_RESPONSE_REFRESH_TIME)
   {
     //send current RPM and oil temp
-    Nextion.writeNum("GLOBAL_VAL.CURRENT_RPM.val", avg_Motor_RPM);
-    Nextion.writeNum("GLOBAL_VAL.CURRENT_HEAT.val",  avg_temp_ntc_oil);
+    Nextion.writeNum("GLB_VAL.CUR_RPM.val", avg_Motor_RPM);
+    Nextion.writeNum("GLB_VAL.CUR_HEAT.val",  avg_temp_ntc_oil);
 
     //send all temp values from security NTC sensor
-    Nextion.writeNum("GLOBAL_VAL.NTC_MOTOR1.val",  avg_temp_ntc_mosfet_motor_1);
-    Nextion.writeNum("GLOBAL_VAL.NTC_MOTOR2.val",  avg_temp_ntc_mosfet_motor_2);
-    Nextion.writeNum("GLOBAL_VAL.NTC_MOTOR.val",  avg_temp_ntc_motor);
-    Nextion.writeNum("GLOBAL_VAL.NTC_HEATER1.val",  avg_temp_ntc_mosfet_heat_1);
-    Nextion.writeNum("GLOBAL_VAL.NTC_HEATER2.val",  avg_temp_ntc_mosfet_heat_1);
+    Nextion.writeNum("GLB_VAL.NTC_MTR1.val",  avg_temp_ntc_mosfet_motor_1);
+    Nextion.writeNum("GLB_VAL.NTC_MTR2.val",  avg_temp_ntc_mosfet_motor_2);
+    Nextion.writeNum("GLB_VAL.NTC_MOTOR.val",  avg_temp_ntc_motor);
+    Nextion.writeNum("GLB_VAL.NTC_HTR1.val",  avg_temp_ntc_mosfet_heat_1);
+    Nextion.writeNum("GLB_VAL.NTC_HTR2.val",  avg_temp_ntc_mosfet_heat_1);
 
     //send PID output
-    Nextion.writeNum("GLOBAL_VAL.MOTOR_OUTPUT.val",  Motor_Output);
+    Nextion.writeNum("GLB_VAL.MTR_OTP.val",  Motor_Output);
 
-    Nextion.writeNum("GLOBAL_VAL.IR_SENSOR.val",  IR_sensor_count);
-    Nextion.writeStr("GLOBAL_VAL.HEAT_STATE.txt",  digitalRead(PIN_HEATER) ? "ON" : "OFF");
+    Nextion.writeNum("GLB_VAL.IR_SNSR.val",  IR_sensor_count);
+    Nextion.writeStr("GLB_VAL.HEAT_STE.txt",  digitalRead(PIN_HEATER) ? "ON" : "OFF");
 
 
-    current_year = Nextion.readNumber("GLOBAL_VAL.CURRENT_YEAR.val");
-    current_month = Nextion.readNumber("GLOBAL_VAL.CURRENT_MONTH.val");
-    current_day = Nextion.readNumber("GLOBAL_VAL.CURRENT_DAY.val");
-    current_hour = Nextion.readNumber("GLOBAL_VAL.CURRENT_HOUR.val");
-    current_minute = Nextion.readNumber("GLOBAL_VAL.CURRENT_MIN.val");
-    current_second = Nextion.readNumber("GLOBAL_VAL.CURRENT_SEC.val");
+    current_year = Nextion.readNumber("GLB_VAL.CUR_YEAR.val");
+    current_month = Nextion.readNumber("GLB_VAL.CUR_MONTH.val");
+    current_day = Nextion.readNumber("GLB_VAL.CUR_DAY.val");
+    current_hour = Nextion.readNumber("GLB_VAL.CUR_HOUR.val");
+    current_minute = Nextion.readNumber("GLB_VAL.CUR_MIN.val");
+    current_second = Nextion.readNumber("GLB_VAL.CUR_SEC.val");
 
     Nextion.NextionListen();
     nextion_response_refresh_timer = millis();
@@ -72,6 +77,8 @@ void backend_nextion()
   yield();
 }
 
+
+//update all ntc temperature
 void ntc_update()
 {
   if( (millis() - NTC_refresh_timer) > NTC_REFRESH_TIME)
@@ -86,12 +93,14 @@ void ntc_update()
   yield();
 }
 
+//interrupt to add one touth from the dc motor target
 void RPM_interrupt()
 {
   IR_sensor_count++;
 }
 
-void HEAT_ramp() // rafraîchit la commande du chauffage avec hystérésis + modulation
+//Heat ramp ON OFF type
+void HEAT_ramp()
 {
   static unsigned long heaterPulseTimer = 0;
   static bool heaterPulseState = false;
@@ -115,7 +124,6 @@ void HEAT_ramp() // rafraîchit la commande du chauffage avec hystérésis + mod
       heaterPulseState = true;         // commence par chauffer
     }
 
-    // Gestion du cycle ON/OFF si la chauffe est demandée
     if (heat)
     {
       unsigned long elapsed = millis() - heaterPulseTimer;
@@ -134,7 +142,6 @@ void HEAT_ramp() // rafraîchit la commande du chauffage avec hystérésis + mod
     }
     else
     {
-      // Chauffe non demandée
       digitalWrite(PIN_HEATER, LOW);
     }
   }

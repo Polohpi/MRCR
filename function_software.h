@@ -1,7 +1,14 @@
 #ifndef FUCNTION_SOFTWARE_H
 #define FUNCTION_SOFTWARE_H
 
+//declaration of protoype
+float ReadTempNTC(int pin);
+void RPM_update();
+void debug();
+void New_Manual_Timer(int min);
+void Manual_Timer();
 
+//compute ntc voltage in °C
 float ReadTempNTC(int pin)
 {
   int Ro = 10, B =  3435; //Nominal resistance 10K, Beta constant
@@ -24,6 +31,7 @@ float ReadTempNTC(int pin)
 
 }
 
+//compute the rpm
 void RPM_update()
 {
   if((millis() - RPM_refresh_timer) > RPM_REFRESH_TIME )
@@ -38,10 +46,12 @@ void RPM_update()
   yield();
 }
 
+//debug in serial
 void debug()
 {
   if((millis() - debug_refresh_timer) > DEBUG_REFRESH_TIME)
   {
+
       Serial.println("InPut Motor = " + String(Motor_Input));
       Serial.println("Setpoint Motor = " + String(Motor_Setpoint));
       Serial.println("Setpoint Heater = " + String(Setpoint_HEATER));
@@ -61,9 +71,10 @@ void debug()
       Serial.println("current minute = " + String(current_minute));
       debug_refresh_timer = millis();
   }
-yield();
+  yield();
 }
 
+//compute the hour to stop the manual timer
 void New_Manual_Timer(int min)
 {
     int total = current_hour * 60 + current_minute + min;
@@ -76,6 +87,7 @@ void New_Manual_Timer(int min)
     timerOFF_second = current_second;
 }
 
+//it's THE MANUAL COUNTDOWWNNNNNNNNN DAAAA TADA DA DA DA TAAADADA DA DA DA DA DA DA DA DA
 void Manual_Timer()
 {
   if(MANUALTIMER_STATE == true)
@@ -97,7 +109,6 @@ void Manual_Timer()
   }
 
   yield();
-
 }
 
 

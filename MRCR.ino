@@ -47,23 +47,11 @@ void setup() {
   pinMode(PIN_IR_SENSOR, INPUT_PULLUP);
 
   attachInterrupt(digitalPinToInterrupt(PIN_IR_SENSOR), RPM_interrupt, FALLING);
-
-
   yield();
 }
 
 void loop() 
 {
-  SerialUSB.println("loop");
-  Nextion.writeStr("page 1");
-
-  while (1)
-  {  
-    if(ChangePageMenu == MANUAL_MODE_PAGE)
-    {
-      ManualModePage();
-    }
-    yield();
-  }
+  MainPage();
   yield();
 }

@@ -1,6 +1,12 @@
 #ifndef FUCNTION_NEXTION_H
 #define FUNCTION_NEXTION_H
 
+//declaration of protoype
+void trigger40();
+void trigger41();
+void trigger0();
+void trigger1();
+
 void trigger40() //to main page
 {
   Serial.println("trigger40 - Main Page");
@@ -29,6 +35,7 @@ void trigger0()// SET values in ManualMode
   yield();
 }
 
+//trigger when button "set" is pressed in manualmode
 void trigger1()
 {
   Serial.println("trigger1 - STOP");
