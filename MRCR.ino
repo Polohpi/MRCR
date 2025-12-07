@@ -20,6 +20,7 @@ void setup() {
   Scheduler.startLoop(RPM_update);
   Scheduler.startLoop(HEAT_ramp);
   Scheduler.startLoop(debug, 2048);
+  Scheduler.startLoop(Manual_Timer);
 
 
   Motor_PID.SetMode(AUTOMATIC);
@@ -30,6 +31,7 @@ void setup() {
   Avg_MotorRPM.begin();
   Avg_Temp_ntc_mosfet_motor_1.begin();
   Avg_Temp_ntc_mosfet_motor_2.begin();
+  Avg_Temp_ntc_motor.begin();
   Avg_Temp_ntc_mosfet_heat_1.begin();
   Avg_Temp_ntc_mosfet_heat_2.begin();
   Avg_MotorRPM.reset();
@@ -38,7 +40,7 @@ void setup() {
   pinMode(PIN_NTC_MOSFET_MOTOR_2, INPUT);
   pinMode(PIN_NTC_MOSFET_HEAT_1, INPUT);
   pinMode(PIN_NTC_MOSFET_HEAT_2, INPUT);
-//  pinMode(PIN_NTC_MOTOR, INPUT_PULLUP); //pullup here to avaoid erratic reaing before the pcb v2 wich will include a ntc sensor for the DC motor itself
+  pinMode(PIN_NTC_MOTOR, INPUT); //pullup here to avaoid erratic reaing before the pcb v2 wich will include a ntc sensor for the DC motor itself
   pinMode(PIN_NTC_OIL, INPUT);
   pinMode(PIN_MOTOR, OUTPUT);
   pinMode(PIN_HEATER, OUTPUT); 
@@ -54,6 +56,7 @@ void loop()
 {
   SerialUSB.println("loop");
   Nextion.writeStr("page 1");
+
   while (1)
   {  
     if(ChangePageMenu == MANUAL_MODE_PAGE)

@@ -46,19 +46,58 @@ void debug()
       Serial.println("Setpoint Motor = " + String(Motor_Setpoint));
       Serial.println("Setpoint Heater = " + String(Setpoint_HEATER));
       Serial.println("Output Motor = " + String(Motor_Output));
-      Serial.println(String("Heat active = ") + (heat ? "ON" : "OFF"));
+      Serial.println(String("Heat active = ") + (digitalRead(PIN_HEATER) ? "ON" : "OFF"));
       
       Serial.println("NTC Motor 1= " + String(avg_temp_ntc_mosfet_motor_1));
       Serial.println("NTC Motor 2= " + String(avg_temp_ntc_mosfet_motor_2));
-      //Serial.println("NTC MOTOR = " + String(temp_ntc_motor));
+      Serial.println("NTC MOTOR = " + String(avg_temp_ntc_motor));
       Serial.println("NTC Heat 1= " + String(avg_temp_ntc_mosfet_heat_1));
       Serial.println("NTC Heat 2= " + String(avg_temp_ntc_mosfet_heat_2));
       Serial.println("NTC OIL= " + String(avg_temp_ntc_oil));
       Serial.println("IR cnt= " + String(IR_sensor_count));
       Serial.println("Motor RPM avg= " + String(avg_Motor_RPM));
+      Serial.println("Timeleft = " + String(Timeleft));
+      Serial.println("current hour = " + String(current_hour));
+      Serial.println("current minute = " + String(current_minute));
       debug_refresh_timer = millis();
   }
 yield();
+}
+
+void New_Manual_Timer(int min)
+{
+    int total = current_hour * 60 + current_minute + min;
+
+    // normalisation 24h
+    total = total % (24 * 60);
+
+    timerOFF_hour = total / 60;
+    timerOFF_minute = total % 60;
+    timerOFF_second = current_second;
+}
+
+void Manual_Timer()
+{
+  if(MANUALTIMER_STATE == true)
+  {
+    if((millis() - manualtimer_refresh_timer) > MANUALTIMER_REFRESH_TIME)
+    {
+      Timeleft = ((timerOFF_hour * 60 + timerOFF_minute) - (current_hour * 60 + current_minute) + 1440) % 1440;
+  
+      if(current_hour == timerOFF_hour && current_minute == timerOFF_minute && current_second == timerOFF_second)
+      {
+        Motor_Setpoint = 0;
+        Setpoint_HEATER = 0;
+        Timeleft = 0;
+        MANUALTIMER_STATE = false;
+      }
+
+      manualtimer_refresh_timer = millis();
+    }
+  }
+
+  yield();
+
 }
 
 

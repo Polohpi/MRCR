@@ -15,7 +15,7 @@
 #define PIN_NTC_MOSFET_HEAT_1 A2
 #define PIN_NTC_MOSFET_HEAT_2 A3
 #define PIN_NTC_OIL A6
-//#define PIN_NTC_MOTOR A7
+#define PIN_NTC_MOTOR A7
 
 //define hardware pins
 #define PIN_MOTOR 10 
@@ -28,6 +28,10 @@
 //set variables for each page. When called ChangePageMenu = 1, the screen will change to the main page
 #define MAIN_PAGE 1 
 #define MANUAL_MODE_PAGE 2
+
+//define delay in ms for the oil heat on off cycle
+#define HEATER_ON_TIME   15000   // 15 secondes
+#define HEATER_OFF_TIME  10000   // 10 secondes
 
 //define variable to get the nextion RTC values (hour minutes etc)
 int current_year;
@@ -59,6 +63,9 @@ unsigned long NTC_refresh_timer = millis();  // timer for refreshing RPM counter
 const int DEBUG_REFRESH_TIME = 1000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
 unsigned long debug_refresh_timer = millis();  // timer for refreshing RPM counter.
 
+const int MANUALTIMER_REFRESH_TIME = 1000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
+unsigned long manualtimer_refresh_timer = millis();  // timer for refreshing RPM counter.
+
 //Define PID Variables 
 double Motor_Setpoint=0, Motor_Input, Motor_Output;
 
@@ -77,6 +84,7 @@ movingAvg Avg_Temp_ntc_oil(10); // sample oil temp sensor to avoid noise
 movingAvg Avg_MotorRPM(5); // sample RPM count to avoid noise 
 movingAvg Avg_Temp_ntc_mosfet_motor_1(10);
 movingAvg Avg_Temp_ntc_mosfet_motor_2(10);
+movingAvg Avg_Temp_ntc_motor(10);
 movingAvg Avg_Temp_ntc_mosfet_heat_1(10);
 movingAvg Avg_Temp_ntc_mosfet_heat_2(10);
 
@@ -91,10 +99,19 @@ float avg_temp_ntc_mosfet_heat_1 = 0;
 float avg_temp_ntc_mosfet_heat_2 = 0;
 int ManualMode_SetRPM[] = {0, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950};
 int ManualMode_SetHeat[] = {0, 30, 40, 50, 60, 70, 80, 90, 100, 110};
+int ManualMode_SetTimer[] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420}; 
 
 
 double Setpoint_HEATER = 0.0;                       // consigne en °C
 const double HYST_HEATER = 1.0;                // ±1 °C autour de SP
 bool heat = false;                      // état chauffage (sortie)
+
+int Setpoint_Timer = 0; // contain de numebr of minutes left before stop
+
+int Timeleft = 0;
+int timerOFF_hour = 0;
+int timerOFF_minute = 0;
+int timerOFF_second = 0;
+bool MANUALTIMER_STATE = false;
 
 #endif

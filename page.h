@@ -14,6 +14,7 @@ void ManualModePage()
     }
     if( (millis() - nextion_refresh_timer) > NEXTION_REFRESH_TIME)
     {
+      Nextion.writeStr("t11.txt", String(Timeleft)+ " min");
       nextion_refresh_timer = millis();
     }
 
