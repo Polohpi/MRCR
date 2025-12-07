@@ -15,27 +15,31 @@ void MOTOR_PID()
 {
   if( (millis() - Motor_PID_refresh_timer) > MOTOR_PID_REFRESH_TIME)
   {
-    if(Motor_Setpoint == 0)
-    {
-      /*
-      The PID library doesnt include a function to force the pid output to 0. The output only change based on the input and tthe output.
-      This means when we set output == 0 when Setpoint == 0 (to stop the motor), the ouput comput from the pid dont go to 0.
-      Logic : the RPM = 0 and the setpoint = 0 so no need the change the output. We will lure the PID with a constant high RPM so it will go to 0.
-      */
-      Motor_PID.Compute();
-      Motor_Output = 0;
-    }
-    else
-    {
-      Motor_PID.Compute();
-    }
-    analogWrite(PIN_MOTOR, (Motor_Output/10)*( (Motor_Output/6000)*(Motor_Output/6000)* 20) ); 
-    Motor_PID_refresh_timer = millis();
 
-    /* this weird line is not my fault I promess. 
-    The problem is : the pid can control most of the speed of the motor (0 RPM<output<~ 550 RPM) 
-    but can not manage to get the motor to run to 1200 RPM. This take ages.
-    This was the only solution I got to work without make the PID unstable. So i fix it with some duck tape I guess */
+      if(Motor_Setpoint == 0)
+      {
+        /*
+        The PID library doesnt include a function to force the pid output to 0. The output only change based on the input and tthe output.
+        This means when we set output == 0 when Setpoint == 0 (to stop the motor), the ouput comput from the pid dont go to 0.
+        Logic : the RPM = 0 and the setpoint = 0 so no need the change the output. We will lure the PID with a constant high RPM so it will go to 0.
+        */
+        Motor_PID.Compute();
+      }
+      else
+      {
+        if(Emergency_stop == false)
+        {
+          Motor_PID.Compute();
+        }
+      }
+      analogWrite(PIN_MOTOR, (Motor_Output/10)*( (Motor_Output/6000)*(Motor_Output/6000)* 20) ); 
+      Motor_PID_refresh_timer = millis();
+
+      /* this weird line is not my fault I promess. 
+      The problem is : the pid can control most of the speed of the motor (0 RPM<output<~ 550 RPM) 
+      but can not manage to get the motor to run to 1200 RPM. This take ages.
+      This was the only solution I got to work without make the PID unstable. So i fix it with some duck tape I guess */
+    
   } 
   yield();
 
@@ -53,13 +57,12 @@ void backend_nextion()
     //send all temp values from security NTC sensor
     Nextion.writeNum("GLB_VAL.NTC_MTR1.val",  avg_temp_ntc_mosfet_motor_1);
     Nextion.writeNum("GLB_VAL.NTC_MTR2.val",  avg_temp_ntc_mosfet_motor_2);
-    Nextion.writeNum("GLB_VAL.NTC_MOTOR.val",  avg_temp_ntc_motor);
+    Nextion.writeNum("GLB_VAL.NTC_MTR.val",  avg_temp_ntc_motor);
     Nextion.writeNum("GLB_VAL.NTC_HTR1.val",  avg_temp_ntc_mosfet_heat_1);
     Nextion.writeNum("GLB_VAL.NTC_HTR2.val",  avg_temp_ntc_mosfet_heat_1);
 
     //send PID output
     Nextion.writeNum("GLB_VAL.MTR_OTP.val",  Motor_Output);
-
     Nextion.writeNum("GLB_VAL.IR_SNSR.val",  IR_sensor_count);
     Nextion.writeStr("GLB_VAL.HEAT_STE.txt",  digitalRead(PIN_HEATER) ? "ON" : "OFF");
 
@@ -102,48 +105,52 @@ void RPM_interrupt()
 //Heat ramp ON OFF type
 void HEAT_ramp()
 {
-  static unsigned long heaterPulseTimer = 0;
-  static bool heaterPulseState = false;
-
-  if ((millis() - Heater_ramp_refresh_timer) > HEATER_RAMP_REFRESH_TIME)
+  if(Emergency_stop == false)
   {
-    Heater_ramp_refresh_timer = millis();
+    static unsigned long heaterPulseTimer = 0;
+    static bool heaterPulseState = false;
 
-    // Décision de commande avec hystérésis
-    bool wantOn  = (avg_temp_ntc_oil <= (Setpoint_HEATER - HYST_HEATER));
-    bool wantOff = (avg_temp_ntc_oil >= (Setpoint_HEATER + HYST_HEATER));
+    if ((millis() - Heater_ramp_refresh_timer) > HEATER_RAMP_REFRESH_TIME)
+    {
+      Heater_ramp_refresh_timer = millis();
 
-    if (heat && wantOff)
-    {
-      heat = false;
-    }
-    else if (!heat && wantOn)
-    {
-      heat = true;
-      heaterPulseTimer = millis();     // réinitialise le cycle à l'activation
-      heaterPulseState = true;         // commence par chauffer
-    }
+      // Décision de commande avec hystérésis
+      bool wantOn  = (avg_temp_ntc_oil <= (Setpoint_HEATER - HYST_HEATER));
+      bool wantOff = (avg_temp_ntc_oil >= (Setpoint_HEATER + HYST_HEATER));
 
-    if (heat)
-    {
-      unsigned long elapsed = millis() - heaterPulseTimer;
-      if (heaterPulseState && elapsed >= HEATER_ON_TIME)
+      if (heat && wantOff)
       {
-        heaterPulseState = false;
-        heaterPulseTimer = millis();
+        heat = false;
       }
-      else if (!heaterPulseState && elapsed >= HEATER_OFF_TIME)
+      else if (!heat && wantOn)
       {
-        heaterPulseState = true;
-        heaterPulseTimer = millis();
+        heat = true;
+        heaterPulseTimer = millis();     // réinitialise le cycle à l'activation
+        heaterPulseState = true;         // commence par chauffer
       }
 
-      digitalWrite(PIN_HEATER, heaterPulseState ? HIGH : LOW);
+      if (heat)
+      {
+        unsigned long elapsed = millis() - heaterPulseTimer;
+        if (heaterPulseState && elapsed >= HEATER_ON_TIME)
+        {
+          heaterPulseState = false;
+          heaterPulseTimer = millis();
+        }
+        else if (!heaterPulseState && elapsed >= HEATER_OFF_TIME)
+        {
+          heaterPulseState = true;
+          heaterPulseTimer = millis();
+        }
+
+        digitalWrite(PIN_HEATER, heaterPulseState ? HIGH : LOW);
+      }
+      else
+      {
+        digitalWrite(PIN_HEATER, LOW);
+      }
     }
-    else
-    {
-      digitalWrite(PIN_HEATER, LOW);
-    }
+    //yield();
   }
   yield();
 }

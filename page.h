@@ -8,16 +8,9 @@ void MainPage();
 // main page
 void MainPage()
 {
-  Nextion.writeStr("page 1");
-  SerialUSB.println("MainPage");
-
-  while (1)
-  {  
-    if(ChangePageMenu == MANUAL_MODE_PAGE)
-    {
-      ManualModePage();
-    }
-    yield();
+  if(MAIN_PAGE == true)
+  {
+    //SerialUSB.println("MainPage");
   }
   yield();
 }
@@ -25,21 +18,14 @@ void MainPage()
 // manual page
 void ManualModePage()
 {
-  Nextion.writeStr("page 2");
-  Serial.println("ManualMode");
-  while(1)
+  if(MANUAL_MODE_PAGE == true)
   {
-    if(ChangePageMenu == MAIN_PAGE)
-    {
-      MainPage();
-    }
+    //Serial.println("ManualMode");
     if( (millis() - nextion_refresh_timer) > NEXTION_REFRESH_TIME)
     {
       Nextion.writeStr("t11.txt", String(Timeleft)+ " min");
       nextion_refresh_timer = millis();
     }
-
-    yield();
   }
   yield();
 }

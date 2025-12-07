@@ -21,6 +21,9 @@ void setup() {
   Scheduler.startLoop(HEAT_ramp);
   Scheduler.startLoop(debug, 2048);
   Scheduler.startLoop(Manual_Timer);
+  Scheduler.startLoop(Security);
+  Scheduler.startLoop(MainPage);
+  Scheduler.startLoop(ManualModePage);
 
 
   Motor_PID.SetMode(AUTOMATIC);
@@ -48,10 +51,16 @@ void setup() {
 
   attachInterrupt(digitalPinToInterrupt(PIN_IR_SENSOR), RPM_interrupt, FALLING);
   yield();
+  delay(2000);
 }
 
 void loop() 
 {
-  MainPage();
+
+  if(MAIN_PAGE == false && MANUAL_MODE_PAGE == false)
+  {
+  Nextion.writeStr("page Main");
+  MAIN_PAGE = true;
+  }
   yield();
 }

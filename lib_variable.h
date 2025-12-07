@@ -26,13 +26,17 @@
 #define ENCODER 40 //number of teeth on the motor dc target
 
 //set variables for each page. When called ChangePageMenu = 1, the screen will change to the main page
-#define MAIN_PAGE 1 
-#define MANUAL_MODE_PAGE 2
+// #define MAIN_PAGE 1 
+// #define MANUAL_MODE_PAGE 2
 
 //define delay in ms for the oil heat on off cycle
 #define HEATER_ON_TIME   15000   // 15 secondes
 #define HEATER_OFF_TIME  10000   // 10 secondes
 
+//boolean value to run each page without while(1)
+
+bool MAIN_PAGE = false;
+bool MANUAL_MODE_PAGE = false;
 //define variable to get the nextion RTC values (hour minutes etc)
 int current_year;
 int current_month;
@@ -42,29 +46,32 @@ int current_minute;
 int current_second;
 
 //deine various timer
-const int MOTOR_PID_REFRESH_TIME = 50;           // time to refresh the motor PID every 50 ms
-unsigned long Motor_PID_refresh_timer =  millis();  // timer for refreshing motor PID
+const int MOTOR_PID_REFRESH_TIME = 50;                  // time to refresh the motor PID every 50 ms
+unsigned long Motor_PID_refresh_timer =  millis();  
 
-const int HEATER_RAMP_REFRESH_TIME = 2000;           // time to refresh the heater PID every  5000ms
-unsigned long Heater_ramp_refresh_timer = millis();  // timer for refreshing heater PID
+const int HEATER_RAMP_REFRESH_TIME = 2000;              // time to refresh the heater heat ramp every  2000ms
+unsigned long Heater_ramp_refresh_timer = millis();  
 
-const int NEXTION_REFRESH_TIME = 1000;           // time to refresh the Nextion data every 100 ms
-unsigned long nextion_refresh_timer = millis();  // timer for refreshing Nextion's page
+const int NEXTION_REFRESH_TIME = 1000;                  // time to refresh the Nextion data every 1000 ms
+unsigned long nextion_refresh_timer = millis();  
 
-const int RPM_REFRESH_TIME = 50;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
-unsigned long RPM_refresh_timer = millis();  // timer for refreshing RPM counter.
+const int RPM_REFRESH_TIME = 50;                        // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
+unsigned long RPM_refresh_timer = millis();  
 
-const int NEXTION_RESPONSE_REFRESH_TIME = 1000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
-unsigned long nextion_response_refresh_timer = millis();  // timer for refreshing RPM counter.
+const int NEXTION_RESPONSE_REFRESH_TIME = 1000;         // time to refresh the nextion screen
+unsigned long nextion_response_refresh_timer = millis();  
 
-const int NTC_REFRESH_TIME = 1000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
-unsigned long NTC_refresh_timer = millis();  // timer for refreshing RPM counter.
+const int NTC_REFRESH_TIME = 1000;                      // time to refesh the ntc sensor
+unsigned long NTC_refresh_timer = millis();  
 
-const int DEBUG_REFRESH_TIME = 1000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
-unsigned long debug_refresh_timer = millis();  // timer for refreshing RPM counter.
+const int DEBUG_REFRESH_TIME = 1000;                    // time for the debug trough serial
+unsigned long debug_refresh_timer = millis();  
 
-const int MANUALTIMER_REFRESH_TIME = 1000;           // time to refresh the RPM counter every 50 ms. This time period is used to count le top signal from the encoder (x signal in 100 ms)
-unsigned long manualtimer_refresh_timer = millis();  // timer for refreshing RPM counter.
+const int MANUALTIMER_REFRESH_TIME = 1000;              // time to refresh the manual timer
+unsigned long manualtimer_refresh_timer = millis();
+
+const int SECURITY_REFRESH_TIME = 500;                  // time to refresh the security checks
+unsigned long security_refresh_timer = millis();
 
 //Define PID Variables 
 double Motor_Setpoint=0, Motor_Input, Motor_Output;
@@ -114,5 +121,11 @@ int timerOFF_hour = 0;
 int timerOFF_minute = 0;
 int timerOFF_second = 0;
 bool MANUALTIMER_STATE = false;
+
+//Security variable
+int Max_TempMotor = 70;
+int Max_TempMOSFET = 70;
+int Max_TempOil = 26;
+bool Emergency_stop = false;
 
 #endif
